@@ -1,7 +1,8 @@
 import axios from "axios";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const Signup = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -30,9 +31,17 @@ const Signup = () => {
         }
       );
 
-      console.log("Server response:", response.data); // Log the server response
+      console.log("Server response:", response.data);
+      toast.success("Registration successful!", {
+        position: "top-right",
+        autoClose: 3000,
+      });
+      // eslint-disable-next-line no-unused-vars
     } catch (error) {
-      console.error("Error sending data:", error); // Log any errors
+      toast.error("Something Went Wrong", {
+        position: "top-right",
+        autoClose: 3000,
+      });
     }
   };
 

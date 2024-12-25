@@ -17,7 +17,7 @@ import BlogDetails from "./component/Blog/BlogDetails";
 import { DataContext } from "./component/context/store";
 import { useState } from "react";
 import ScrollToTop from "./component/ScrollToTop";
-
+import { ToastContainer } from "react-toastify";
 function App() {
   const [email, setEmail] = useState("");
   return (
@@ -25,6 +25,7 @@ function App() {
       <BrowserRouter>
         <ScrollToTop />
         <Navbar />
+        <ToastContainer />
         <MobileSidebar />
         <DataContext.Provider value={{ email, setEmail }}>
           <Routes>

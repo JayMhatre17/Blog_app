@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { useState, useContext } from "react";
-
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import ForgotPassword from "./ForgotPassword";
 import axios from "axios";
 import { useDispatch } from "react-redux";
@@ -33,10 +34,21 @@ const Login = () => {
       if (response.data === "login succesful") {
         setEmail(email);
         dispatch(setUser(response.data));
-        console.log(email);
+        toast.success("Login successful!", {
+          position: "top-right",
+          autoClose: 3000,
+        });
+      } else {
+        toast.error("Invalid email or password", {
+          position: "top-center",
+          autoClose: 3000,
+        });
       }
     } catch (error) {
-      console.error("Error sending data:", error);
+      toast.error(error, {
+        position: "top-center",
+        autoClose: 3000,
+      });
     }
   };
 
