@@ -5,7 +5,7 @@ const Blog = () => {
     <>
       <div
         className="inner-hero bg-cover"
-        style={{ backgroundImage: "url(/img/bg/1.png)" }}
+        style={{ backgroundImage: "url(/img/bg/test-bg.png)" }}
       >
         {" "}
         <div className="container">

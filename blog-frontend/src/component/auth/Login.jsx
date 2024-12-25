@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { useState, useContext } from "react";
-import { Button } from "react-bootstrap";
+
 import ForgotPassword from "./ForgotPassword";
 import axios from "axios";
 import { useDispatch } from "react-redux";
@@ -43,92 +43,87 @@ const Login = () => {
   return (
     <>
       <div
-        className="login-page sp bg-cover"
-        style={{ backgroundImage: "url(/img/bg/cta4-bg.jpg)" }}
+        className="inner-hero bg-cover"
+        style={{ backgroundImage: "url(/img/bg/test-bg.png)" }}
       >
+        {" "}
         <div className="container">
           <div className="row">
             <div className="col-lg-12">
-              <div className="inner-main-heading">
-                <div className="page-prog ">
-                  <Link to="/" className="text-decoration-none text-light">
+              <div className="main-heading">
+                <div className="page-prog" style={{ color: "white" }}>
+                  <Link to="/" style={{ color: "white" }}>
                     Home
                   </Link>
                   <span>
-                    <i className="fa-solid fa-angle-right text-light" />
+                    <i className="fa-solid fa-angle-right text-light"></i>
                   </span>
-                  <p className="bold mt-3 text-light">Login</p>
+                  <p className="bold mt-3" style={{ color: "white" }}>
+                    Login
+                  </p>
                 </div>
-                <h1 className="text-light">Login</h1>
+                <h1 style={{ color: "white" }}>Login</h1>
               </div>
             </div>
           </div>
-          <div className="row">
-            <div className="col-lg-5 m-auto">
-              <div className="login-form mt-5">
-                <h3>Welcome Back</h3>
-                <p>Please fill your email and password to sign in.</p>
-                <form action="#">
-                  <div className="single-input">
-                    <label>Email</label>
-                    <input
-                      type="text"
-                      placeholder="Email address"
-                      value={emailTemp}
-                      onChange={(e) => setEmailTemp(e.target.value)}
-                    />
-                  </div>
-                  <div className="single-input">
-                    <label>Password</label>
-                    <input
-                      type="password"
-                      placeholder="Enter your password"
-                      value={pass}
-                      onChange={(e) => setPass(e.target.value)}
-                    />
-                  </div>
-                  <div className="button mt-4">
-                    <button
-                      type="submit"
-                      className="theme-btn1"
-                      onClick={formHandler}
-                    >
-                      Sign In
-                    </button>
-                  </div>
-                  <div className="text-center">
-                    <p className="text">
-                      Don’t have an account?{" "}
-                      <Link to="/signup" className="text-decoration-none mx-2">
-                        Sign Up Today.
-                      </Link>{" "}
-                      <br />
-                      <Button
-                        variant="primary"
-                        className="mx-2"
-                        onClick={() => setShow(true)}
-                      >
-                        Forgot Password
-                      </Button>
-                      <ForgotPassword show={show} setShow={setShow} />
-                    </p>
-                    <p className="or">
-                      <span>Or</span>
-                    </p>
-                    <Link to="#" className="google-btn text-decoration-none">
-                      <img src="/img/icons/google.svg" alt="vexon" /> Sign Up
-                      With Google
-                    </Link>
-                    <Link
-                      to="#"
-                      className="google-btn mt-2 text-decoration-none"
-                    >
-                      <img src="/img/icons/facebook.svg" alt="vexon" /> Sign Up
-                      With Facebook
-                    </Link>
-                  </div>
-                </form>
-              </div>
+        </div>
+      </div>
+      <div className="container">
+        <div className="row">
+          <div className="col-lg-5 m-auto">
+            <div
+              className="login-form mt-5"
+              style={{ backgroundColor: "#ebebeb" }}
+            >
+              <h3>Welcome Back</h3>
+              <p>Please fill your email and password to sign in.</p>
+              <form action="#">
+                <div className="single-input">
+                  <label>Email</label>
+                  <input
+                    type="text"
+                    placeholder="Email address"
+                    value={emailTemp}
+                    onChange={(e) => setEmailTemp(e.target.value)}
+                  />
+                </div>
+                <div className="single-input">
+                  <label>Password</label>
+                  <input
+                    type="password"
+                    placeholder="Enter your password"
+                    value={pass}
+                    onChange={(e) => setPass(e.target.value)}
+                  />
+                </div>
+
+                <p
+                  className="cursor-pointer text-light"
+                  onClick={() => setShow(true)}
+                >
+                  Forgot Password
+                </p>
+
+                <div className="button mt-4">
+                  <button
+                    type="submit"
+                    className="theme-btn1"
+                    onClick={formHandler}
+                  >
+                    Sign In
+                  </button>
+                </div>
+                <div className="text-center">
+                  <p className="text">
+                    Don’t have an account?{" "}
+                    <Link to="/signup" className="text-decoration-none mx-2">
+                      Sign Up Today.
+                    </Link>{" "}
+                    <br />
+                    <ForgotPassword show={show} setShow={setShow} />
+                  </p>
+                </div>
+              </form>
             </div>
           </div>
         </div>

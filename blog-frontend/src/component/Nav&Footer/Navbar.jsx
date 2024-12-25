@@ -80,42 +80,10 @@ const Navbar = () => {
                   <ul>
                     <li>
                       <Link to="/"> Home</Link>
-
-                      {/* <div className="tp-submenu">
-                        <div className="row">
-                          <div className="col-lg-12">
-                            <div className="all-images-menu">
-                              {['demo1', 'demo2', 'demo3', 'demo4'].map((demo, index) => (
-                                <div className="homemenu-thumb" key={index} style={index === 3 ? { margin: 0 } : {}}>
-                                  <div className="img1">
-                                    <img src={`assets/img/demo/${demo}.jpg`} alt="vexon" />
-                                  </div>
-                                  <div className="homemenu-btn">
-                                    <a className="header-btn1" href={`index${index + 1}.html`}>
-                                      View Page <i className="fa-solid fa-arrow-right"></i>
-                                    </Link>
-                                  </div>
-                                  <a className="text" href={`index${index + 1}.html`}>
-                                    Modern Blog 0{index + 1}
-                                  </Link>
-                                </div>
-                              ))}
-                            </div>
-                          </div>
-                        </div>
-                      </div> */}
                     </li>
 
                     <li className="dropdown-menu-parrent">
                       <Link to="/blogs"> Blogs</Link>
-                      {/* <Link to="#" className="main1">
-                        Blogs <i className="fa-solid fa-angle-down"></i>
-                      </Link>
-                      <ul>
-                        <li><Link to="blog.html">Blog Format 1</Link></li>
-                        <li><Link to="blog2.html">Blog Format 2</Link></li>
-                        <li><Link to="blog3.html">Blog Format 3</Link></li>
-                      </ul> */}
                     </li>
 
                     <li className="dropdown-menu-parrent">
@@ -146,46 +114,11 @@ const Navbar = () => {
                       <Link to="/contact" className="main1">
                         Contact Us
                       </Link>
-                      {/* <ul>
-                        <li><Link to="categories.html">Categories 01</Link></li>
-                        <li><Link to="categories2.html">Categories 02</Link></li>
-                      </ul> */}
                     </li>
-
-                    {/* <li className="dropdown-menu-parrent">
-                      <Link to="#" className="main1">
-                        Pages <i className="fa-solid fa-angle-down"></i>
-                      </Link>
-                      <ul>
-                        <li><Link to="author.html">Author</Link></li>
-                        <li><Link to="search.html">Search Result</Link></li>
-                        <li><Link to="contact.html">Contact Us</Link></li>
-                        <li><Link to="social-media.html">Social Media</Link></li>
-                        <li><Link to="404-2.html">404</Link></li>
-                      </ul>
-                    </li> */}
-
-                    {/* <li className="dropdown-menu-parrent">
-                      <Link to="#" className="main1">
-                        Account <i className="fa-solid fa-angle-down"></i>
-                      </Link>
-                      <ul>
-                        <li><Link to="login.html">Login</Link></li>
-                        <li><Link to="sigup.html">Sign Up</Link></li>
-                        <li><Link to="forgot.html">Forgot</Link></li>
-                        <li><Link to="reset.html">Reset Password</Link></li>
-                        <li><Link to="verify.html">Verify</Link></li>
-                      </ul>
-                    </li> */}
                   </ul>
                 </div>
 
                 <div className="header1-buttons">
-                  {/* <div className="vl-search-top">
-                    <button className="search-open-btn">
-                      <i className="fa-regular fa-magnifying-glass"></i>
-                    </button>
-                  </div> */}
                   {user !== null ? (
                     <Link className="theme-btn7" to="/login">
                       Login
@@ -218,25 +151,6 @@ const Navbar = () => {
                       </DropdownButton>
                     </div>
                   )}
-
-                  {/* <Dropdown data-bs-theme="dark">
-                          <div className='rounded-circle bg-secondary'>
-                            <img src={profile} alt="not-f" />
-                          </div>
-                          <Dropdown.Toggle id="dropdown-button-dark-example1" variant="light">
-                          
-                            User Name
-                          </Dropdown.Toggle>
-
-                          <Dropdown.Menu>
-                            <Dropdown.Item href="#/action-1" active>
-                              Profile
-                            </Dropdown.Item>
-                            <Dropdown.Item href="#/action-2">Settings</Dropdown.Item>
-                            <Dropdown.Divider />
-                            <Dropdown.Item href="#/action-4">Log out</Dropdown.Item>
-                          </Dropdown.Menu>
-                    </Dropdown> */}
                 </div>
               </div>
             </div>

@@ -1,11 +1,25 @@
 import { useRef, useState } from "react";
 import { Modal, Form, Button } from "react-bootstrap";
+import { Link } from "react-router-dom";
+
+import fb_icon from "/social/facebook.png";
+import instagram_icon from "/social/instagram.png";
+import linkedin from "/social/linkedin.png";
+import twitter from "/social/twitter.png";
+
 const Profile = () => {
   const inputRef = useRef(null);
   const blogs = [1, 2, 3, 4, 5, 6];
   const [show, setShow] = useState(false);
   const handleEditImg = () => {
     inputRef.current.click();
+  };
+
+  const social = {
+    facebook: "https://www.facebook.com",
+    instagram: "https://www.instargram.com",
+    linkedin: "https://www.linkedin.com",
+    twitter: "https://www.x.com",
   };
   return (
     <div className="container m-auto row gap-5 pt-5">
@@ -24,7 +38,7 @@ const Profile = () => {
           <span className="font-weight-bold mt-3">Edogaru</span>
           <span className="text-black-50 ">edogaru@mail.com.my</span>
           <span> </span>
-          <div className="d-flex p-2">
+          <div className="pt-2">
             <button
               className="btn btn-info m-1 shadow"
               onClick={() => setShow(true)}
@@ -36,6 +50,7 @@ const Profile = () => {
               <Modal.Header closeButton>
                 <Modal.Title>Edit Profile</Modal.Title>
               </Modal.Header>
+
               <Modal.Body>
                 <Form.Group
                   className="mb-3"
@@ -64,9 +79,22 @@ const Profile = () => {
                   >
                     <Form.Label>Edit Username</Form.Label>
                     <Form.Control type="text" autoFocus />
+                    {/* Facebook  */}
+                    <Form.Label className="mt-2">Facebook URL</Form.Label>
+                    <Form.Control type="text" placeholder="Paste here.." />
+                    {/* Instagram  */}
+                    <Form.Label className="mt-2">Instagram URL</Form.Label>
+                    <Form.Control type="text" placeholder="Paste here.." />
+                    {/* LinkedIn  */}
+                    <Form.Label className="mt-2">LinkedIn URL</Form.Label>
+                    <Form.Control type="text" placeholder="Paste here.." />
+                    {/* Twitter  */}
+                    <Form.Label className="mt-2">Twitter URL</Form.Label>
+                    <Form.Control type="text" placeholder="Paste here.." />
                   </Form.Group>
                 </Form>
               </Modal.Body>
+
               <Modal.Footer>
                 <Button variant="secondary" onClick={() => setShow(false)}>
                   Close
@@ -76,7 +104,25 @@ const Profile = () => {
                 </Button>
               </Modal.Footer>
             </Modal>
+
             <button className="btn btn-info m-1 shadow">Logout</button>
+            <div className="col-md-12">
+              <h4>Social Links</h4>
+              <div className="w-100 social_links">
+                <Link to={social.facebook}>
+                  <img src={fb_icon} alt="" className="m-1" />
+                </Link>
+                <Link to={social.instagram}>
+                  <img src={instagram_icon} alt="" className="m-1" />
+                </Link>
+                <Link to={social.linkedin}>
+                  <img src={linkedin} alt="" className="m-1" />
+                </Link>
+                <Link to={social.twitter}>
+                  <img src={twitter} alt="" className="m-1" />
+                </Link>
+              </div>
+            </div>
           </div>
         </div>
       </div>

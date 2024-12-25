@@ -2,7 +2,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
 import Login from "./component/auth/Login";
 import Signup from "./component/auth/Signup";
-
+import ErrorPage from "./error/ErrorPage";
 import "./assets/bootstrap.min.css";
 import Profile from "./admin/Profile";
 import Dashboard from "./admin/Dashboard";
@@ -16,12 +16,14 @@ import Blogs from "./component/Blog/Blog";
 import BlogDetails from "./component/Blog/BlogDetails";
 import { DataContext } from "./component/context/store";
 import { useState } from "react";
+import ScrollToTop from "./component/ScrollToTop";
 
 function App() {
   const [email, setEmail] = useState("");
   return (
     <>
       <BrowserRouter>
+        <ScrollToTop />
         <Navbar />
         <MobileSidebar />
         <DataContext.Provider value={{ email, setEmail }}>
@@ -35,6 +37,7 @@ function App() {
             <Route path="/create/blog" element={<CreateBlog />} />
             <Route path="/user/profile/:id" element={<Profile />} />
             <Route path="/user/admin/dashboard" element={<Dashboard />} />
+            <Route path="*" element={<ErrorPage />} />
           </Routes>
         </DataContext.Provider>
         <Footer />

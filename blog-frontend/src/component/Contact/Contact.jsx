@@ -5,7 +5,7 @@ const Contact = () => {
     <>
       <div
         className="inner-hero bg-cover"
-        style={{ backgroundImage: "url(/img/bg/hero2-bg.jpg)" }}
+        style={{ backgroundImage: "url(/img/bg/test-bg.png)" }}
       >
         <div className="container">
           <div className="row">

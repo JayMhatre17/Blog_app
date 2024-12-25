@@ -1,13 +1,17 @@
 import navLogo from "/img/logo/header-logo1.png";
 import contactImg from "/img/icons/footer1-icon1.svg";
 import locationImg from "/img/icons/footer1-icon2.svg";
+import { Dropdown, DropdownButton } from "react-bootstrap";
 import phoneImg from "/img/icons/footer1-icon3.svg";
+import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { removeUser } from "../../store/userSlice";
 const MobileSidebar = () => {
   const [resBtn, setResbtn] = useState(false);
+  const dispatch = useDispatch();
   const [responsiveLinks, setResponsiveLinks] = useState(false);
-
+  const user = useSelector((state) => state.user.user);
   const handleClose = () => {
     if (resBtn) {
       setResbtn(!resBtn);
@@ -25,6 +29,13 @@ const MobileSidebar = () => {
     }
   };
 
+  const handelLogout = async () => {
+    try {
+      dispatch(removeUser());
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <div>
       <div className="mobile-header mobile-header-main d-block d-lg-none">
@@ -44,7 +55,40 @@ const MobileSidebar = () => {
                   </Link>
                 </div>
               </div>
-              <div>login</div>
+              <div className="header1-buttons">
+                {user !== null ? (
+                  <Link className="theme-btn7" to="/login">
+                    Login
+                  </Link>
+                ) : (
+                  <div>
+                    <DropdownButton
+                      id="dropdown-button-dark-example2"
+                      variant=""
+                      title={
+                        <img
+                          src={user.profile_picture}
+                          alt="Dropdown Icon"
+                          style={{
+                            borderRadius: "50%",
+                            width: "40px",
+                            height: "40px",
+                          }}
+                        />
+                      }
+                      className="mt-2"
+                      data-bs-theme="dark"
+                    >
+                      <Dropdown.Item>Profile</Dropdown.Item>
+                      <Dropdown.Item>Edit Profile</Dropdown.Item>
+                      <Dropdown.Divider />
+                      <Dropdown.Item>
+                        <button onClick={handelLogout}> Log Out</button>
+                      </Dropdown.Item>
+                    </DropdownButton>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>
