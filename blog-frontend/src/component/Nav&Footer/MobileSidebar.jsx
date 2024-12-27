@@ -10,6 +10,28 @@ import { removeUser } from "../../store/userSlice";
 import axios from "axios";
 import { toast } from "react-toastify";
 const MobileSidebar = () => {
+  const blogCategories = [
+    "Lifestyle",
+    "Technology",
+    "Business & Finance",
+    "Food & Drink",
+    "Fashion & Beauty",
+    "Education",
+    "Entertainment",
+    "Home & Garden",
+    "Sports",
+    "Arts & Culture",
+    "Science & Nature",
+    "Politics & Society",
+    "Self-Improvement",
+    "Pets & Animals",
+    "Technology Reviews",
+    "Travel",
+    "Marketing & SEO",
+    "Health & Fitness",
+    "Gaming",
+    "Photography & Videography",
+  ];
   const [resBtn, setResbtn] = useState(false);
   const dispatch = useDispatch();
   const [responsiveLinks, setResponsiveLinks] = useState(false);
@@ -141,7 +163,29 @@ const MobileSidebar = () => {
               className="has-dropdown has-sub hash-has-sub"
               onClick={() => handleResNav()}
             >
-              <span
+              <Dropdown>
+                <Dropdown.Toggle
+                  id="dropdown-basic"
+                  className="bg-transparent border-0"
+                >
+                  <span className="me-2"> Categories</span>
+                </Dropdown.Toggle>
+
+                <Dropdown.Menu
+                  align="end"
+                  style={{ maxHeight: "240px", overflowY: "auto" }}
+                >
+                  {blogCategories.map((val, index) => (
+                    <Dropdown.Item key={index}>
+                      <Link to={`/category/${val}`} className="text-dark">
+                        {val}
+                      </Link>
+                    </Dropdown.Item>
+                  ))}
+                </Dropdown.Menu>
+              </Dropdown>
+
+              {/* <span
                 className={`submenu-button ${
                   responsiveLinks ? "submenu-opened" : ""
                 }`}
@@ -175,7 +219,7 @@ const MobileSidebar = () => {
                     Home 4
                   </Link>
                 </li>
-              </ul>
+              </ul> */}
             </li>
 
             <li className="hash-has-sub" onClick={() => handleClose()}>

@@ -1,20 +1,27 @@
 import { Link } from "react-router-dom";
-import Mydata from "../../dummyData/data.js";
+
 import { useParams } from "react-router-dom";
-// import DummyData from "../../dummyData/data.js"
+import { useEffect, useState } from "react";
+import axios from "axios";
+// import data from "../../data/data.js"
 const Blog = () => {
-    const myparams = useParams();
+  const myparams = useParams();
+  const [blogData, setBlogData] = useState([]);
+  // const [likes, setLikes] = useState(0);
+  useEffect(() => {
+    axios
+      .get("/api/blog/getblogs")
+      .then((res) => setBlogData(res.data.data))
+      .catch((err) => console.log(err));
+  }, []);
 
-  console.log(Mydata);
-
-  function convertDate(datestr){
-
+  function convertDate(datestr) {
     const date = new Date(datestr);
 
     const formattedDate = date.toLocaleDateString("en-US", {
-        month: "short",
-        day: "numeric",
-        year: "numeric",
+      month: "short",
+      day: "numeric",
+      year: "numeric",
     });
 
     return formattedDate;
@@ -24,7 +31,7 @@ const Blog = () => {
     <>
       <div
         className="inner-hero bg-cover"
-        style={{ backgroundImage: "url(/public/test-bg.png)" }}
+        style={{ backgroundImage: "url(/img/bg/test-bg.png)" }}
       >
         {" "}
         <div className="container">
@@ -53,67 +60,72 @@ const Blog = () => {
       <div className="blog-page-sec sp">
         <div className="container">
           <div className="row">
-            { Mydata.filter((cate)=> cate.category==myparams.id).length > 0 ?
-              Mydata.filter((cate)=> cate.category==myparams.id).map((DummyData, key)=>(
-                <div
-              className="col-md-6 col-lg-4"
-              data-aos="fade-up"
-              data-aos-offset={50}
-              data-aos-duration={400}
-              data-aos-delay={100} key={key}
-            >
-              <div className="blog1-single-box">
-                <div className="thumbnail image-anime">
-                  <img src={DummyData.banner} alt="vexon" />
-                </div>
-                <div className="heading1">
-                  <div className="social-area">
-                    <Link to={`/blogs/${DummyData.id}`} className="social">
-                      {DummyData.category}
-                    </Link>
-                    <Link to={`/blogs/${DummyData.id}`} className="time">
-                      <img src="/public/img/icons/time1.svg" alt="vexon" /> 3
-                      min read
-                    </Link>
-                  </div>
-                  <h4>
-                    <Link to={`/blogs/${DummyData.id}`}>
-                      {DummyData.title}
-                    </Link>
-                  </h4>
-                  <p className="mt-16">
-                    {DummyData.desc}
-                  </p>
-                  <div className="author-area">
-                    <div className="author">
-                      <div className="author-tumb">
-                        <img
-                          src="/public/img/blog/blog1-author1.png"
-                          alt="vexon"
-                        />
+            {blogData.filter((cate) => cate.category == myparams.id).length >
+            0 ? (
+              blogData
+                .filter((cate) => cate.category == myparams.id)
+                .map((data, key) => (
+                  <div
+                    className="col-md-6 col-lg-4 my-2 m-auto"
+                    data-aos="fade-up"
+                    data-aos-offset={50}
+                    data-aos-duration={400}
+                    data-aos-delay={100}
+                    key={key}
+                  >
+                    <div className="blog1-single-box">
+                      <div className="thumbnail image-anime">
+                        <img src={data.banner} alt="vexon" />
                       </div>
-                      <Link to={`/blogs/${DummyData.id}`} className="author-text">
-                      {DummyData.name}
-                      </Link>
-                    </div>
-                    <div className="date">
-                      <Link to={`/blogs/${DummyData.id}`}>
-                        <img src="/public/img/icons/date1.svg" alt="vexon" />{" "}
-                        {convertDate(DummyData.updated_at)}
-                        {" "}
-                      </Link>
+                      <div className="heading1">
+                        <div className="social-area">
+                          <Link to={`/blogs/${data.id}`} className="social">
+                            {data.category}
+                          </Link>
+                          <Link to={`/blogs/${data.id}`} className="time">
+                            <img
+                              src="/public/img/icons/time1.svg"
+                              alt="vexon"
+                            />{" "}
+                            3 min read
+                          </Link>
+                        </div>
+                        <h4>
+                          <Link to={`/blogs/${data.id}`}>{data.title}</Link>
+                        </h4>
+                        <p className="mt-16">{data.desc}</p>
+                        <div className="author-area">
+                          <div className="author">
+                            <div className="author-tumb">
+                              <img
+                                src="/public/img/blog/blog1-author1.png"
+                                alt="vexon"
+                              />
+                            </div>
+                            <Link
+                              to={`/blogs/${data.id}`}
+                              className="author-text"
+                            >
+                              {data.name}
+                            </Link>
+                          </div>
+                          <div className="date">
+                            <Link to={`/blogs/${data.id}`}>
+                              <img
+                                src="/public/img/icons/date1.svg"
+                                alt="vexon"
+                              />{" "}
+                              {convertDate(data.updated_at)}{" "}
+                            </Link>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </div>
-                </div>
-              ))
-              :
-              (
-                <div className="text-dark">no such data found</div>
-              )
-            }
-            
+                ))
+            ) : (
+              <div className="text-dark">no such data found</div>
+            )}
           </div>
 
           {/* pagination */}

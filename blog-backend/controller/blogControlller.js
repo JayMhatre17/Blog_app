@@ -64,7 +64,7 @@ export const editBlogLikes = (req, res, next) => {
 };
 
 export const editBlog = (req, res, next) => {
-  const { title, desc, category, banner, content, email, blogId } = req.body;
+  const { title, desc, category, banner, content, blogId } = req.body;
 
   if (!title || !desc || !category || !banner || !content || !blogId) {
     return res.status(400).json({ message: "All fields are required" });
@@ -91,7 +91,7 @@ export const getUserBlogs = (req, res, next) => {
   const user = req.params.user;
   conn
     .query(
-      "select title, `desc`, category, banner, content,created_at,updated_at,user_email from blog where user_email = ?",
+      "select id,title, `desc`, category, banner, content,created_at,updated_at,user_email from blog where user_email = ?",
       [user]
     )
     .then(([result]) => {
@@ -103,6 +103,24 @@ export const getUserBlogs = (req, res, next) => {
       res.status(200).json({
         message: "blogs fetched",
         data: result,
+      });
+    })
+    .catch((err) => next(err));
+};
+
+export const deleteBlog = (req, res, next) => {
+  const { id: blogId } = req.params;
+  console.log(blogId);
+  conn
+    .query("delete from blog where id = ?", [blogId])
+    .then(([result]) => {
+      if (!result) {
+        return res.status(400).send({
+          message: "Invalid request",
+        });
+      }
+      res.status(200).json({
+        message: "blog deleted",
       });
     })
     .catch((err) => next(err));

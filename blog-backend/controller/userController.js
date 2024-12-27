@@ -31,14 +31,16 @@ export const addUser = (req, res, next) => {
           hash,
         ])
         .then(([result]) => {
+          if (!result) return res.status(404).send("Something went wrong");
+
+          let token = jwt.sign({ id: result.insertId }, process.env.JWT_TOKEN);
+          res.cookie("token", token, { httpOnly: true });
           res.status(201).json({
             id: result.insertId,
             name,
             email,
             hash,
           });
-          let token = jwt.sign({ id: result.insertId }, process.env.JWT_TOKEN);
-          res.cookie("token", token, { httpOnly: true });
         })
         .catch((err) => next(err));
     });

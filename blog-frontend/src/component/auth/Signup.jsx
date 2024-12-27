@@ -25,12 +25,10 @@ const Signup = () => {
     try {
       const response = await axios.post(
         "http://localhost:3000/api/createuser",
-        { name, email, password: pass },
-        {
-          withCredentials: true, // Ensure cookies are sent with the request
-        }
+        { name, email, password: pass }
       );
-      if (response.data.message) {
+
+      if (response.data) {
         toast.success("Registration successful!", {
           position: "top-right",
           autoClose: 3000,

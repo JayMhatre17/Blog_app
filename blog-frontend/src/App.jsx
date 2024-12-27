@@ -18,6 +18,7 @@ import { DataContext } from "./component/context/store";
 import { useState } from "react";
 import ScrollToTop from "./component/ScrollToTop";
 import { ToastContainer } from "react-toastify";
+import Category from "./component/Blog/Category";
 function App() {
   const [email, setEmail] = useState("");
   return (
@@ -35,6 +36,7 @@ function App() {
             <Route path="/blogs" element={<Blogs />} />
             <Route path="/blogs/:id" element={<BlogDetails />} />
             <Route path="/signup" element={<Signup />} />
+            <Route path="/category/:id" element={<Category />} />
             <Route path="/create/blog" element={<CreateBlog />} />
             <Route path="/user/profile/:id" element={<Profile />} />
             <Route path="/user/admin/dashboard" element={<Dashboard />} />

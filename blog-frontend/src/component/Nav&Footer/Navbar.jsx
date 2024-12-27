@@ -110,7 +110,10 @@ const Navbar = () => {
                         >
                           {blogCategories.map((val, index) => (
                             <Dropdown.Item key={index}>
-                              <Link to={`/blogs/${val}`} className="text-dark">
+                              <Link
+                                to={`/category/${val}`}
+                                className="text-dark"
+                              >
                                 {val}
                               </Link>
                             </Dropdown.Item>

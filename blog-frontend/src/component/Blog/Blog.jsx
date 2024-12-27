@@ -33,7 +33,7 @@ const Blog = () => {
     <>
       <div
         className="inner-hero bg-cover"
-        style={{ backgroundImage: "url(/public/test-bg.png)" }}
+        style={{ backgroundImage: "url(/img/bg/test-bg.png)" }}
       >
         {" "}
         <div className="container">
@@ -64,7 +64,7 @@ const Blog = () => {
           <div className="row">
             {blogData.map((DummyData, key) => (
               <div
-                className="col-md-6 col-lg-4"
+                className="col-md-6 col-lg-4 my-2 m-auto"
                 data-aos="fade-up"
                 data-aos-offset={50}
                 data-aos-duration={400}
