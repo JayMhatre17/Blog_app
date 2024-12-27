@@ -1,13 +1,16 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState, useContext } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ForgotPassword from "./ForgotPassword";
 import axios from "axios";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "../../store/userSlice";
 import { DataContext } from "../context/store";
+
 const Login = () => {
+  const navigate = useNavigate();
+  const user = useSelector((state) => state.user.user);
   const { setEmail } = useContext(DataContext);
   const [show, setShow] = useState(false);
   const [emailTemp, setEmailTemp] = useState("");
@@ -31,13 +34,15 @@ const Login = () => {
           withCredentials: true,
         }
       );
-      if (response.data === "login succesful") {
+      if (response.data.message) {
         setEmail(email);
-        dispatch(setUser(response.data));
+        dispatch(setUser(email));
         toast.success("Login successful!", {
           position: "top-right",
           autoClose: 3000,
         });
+        console.log(user);
+        navigate("/");
       } else {
         toast.error("Invalid email or password", {
           position: "top-center",

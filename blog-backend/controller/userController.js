@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 export const getUser = (req, res, next) => {
   const userId = req.params.id;
   conn
-    .query("select * from user where id = ?", [userId])
+    .query("select * from user where email = ?", [userId])
     .then(([row]) => {
       if (row.length > 0) {
         res.json(row[0]);
@@ -56,7 +56,7 @@ export const checkUser = (req, res, next) => {
         if (result) {
           let token = jwt.sign({ id: user.id }, process.env.JWT_TOKEN);
           res.cookie("token", token, { httpOnly: true });
-          return res.status(200).send({ message: "Login Successfull" });
+          res.status(200).send({ message: "Login Successfull" });
         } else {
           res.send("Something Went wrong");
         }
@@ -78,3 +78,42 @@ export const changeUserPassword = (req, res, next) => {
   });
 };
 
+export const logout = (req, res, next) => {
+  try {
+    console.log("logout");
+    res.clearCookie("token");
+    res.send("Logout successfull");
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+};
+
+export const editUser = (req, res, next) => {
+  const { name, email, image, social_link } = req.body;
+  const updates = {};
+  if (name) updates.name = name;
+  if (image) updates.image = image;
+  if (social_link) updates.social_link = JSON.stringify(social_link);
+
+  const updateKeys = Object.keys(updates);
+  if (updateKeys.length === 0) {
+    return res.status(400).json({ message: "No fields to update" });
+  }
+
+  const updateValues = updateKeys.map((key) => updates[key]);
+  const setClause = updateKeys.map((key) => `${key} = ?`).join(", ");
+
+  conn
+    .query(`UPDATE user SET ${setClause} WHERE email = ?`, [
+      ...updateValues,
+      email,
+    ])
+    .then(([result]) => {
+      if (result.affectedRows === 0) {
+        return res.status(404).json({ message: "User not found" });
+      }
+      res.status(200).json({ message: "User updated successfully" });
+    })
+    .catch((err) => next(err));
+};

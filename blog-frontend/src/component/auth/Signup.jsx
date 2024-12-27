@@ -1,13 +1,13 @@
 import axios from "axios";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 const Signup = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
-
+  const navigate = useNavigate();
   const formHandler = (e) => {
     e.preventDefault();
 
@@ -30,12 +30,13 @@ const Signup = () => {
           withCredentials: true, // Ensure cookies are sent with the request
         }
       );
-
-      console.log("Server response:", response.data);
-      toast.success("Registration successful!", {
-        position: "top-right",
-        autoClose: 3000,
-      });
+      if (response.data.message) {
+        toast.success("Registration successful!", {
+          position: "top-right",
+          autoClose: 3000,
+        });
+        navigate("/login");
+      }
       // eslint-disable-next-line no-unused-vars
     } catch (error) {
       toast.error("Something Went Wrong", {

@@ -2,7 +2,9 @@ import axios from "axios";
 import { useRef } from "react";
 import { useState } from "react";
 import { Dropdown } from "react-bootstrap";
-import Cookies from "js-cookie";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 const CreateBlog = () => {
   const blogCategories = [
     "Lifestyle",
@@ -26,10 +28,10 @@ const CreateBlog = () => {
     "Gaming",
     "Photography & Videography",
   ];
-
+  const user = useSelector((state) => state.user.user);
   const cloudinaryRef = useRef();
   const widgetRef = useRef();
-
+  const navigate = useNavigate();
   const [image, setImage] = useState("");
   const [mImage, setmImage] = useState("");
   const [mtitle, setmTitle] = useState("");
@@ -37,7 +39,7 @@ const CreateBlog = () => {
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
   const [categories, setCategories] = useState("");
-  const [blog, setBlog] = useState({ context: [] });
+  const [blog, setBlog] = useState({ content: [] });
 
   const openWidget = (val) => {
     cloudinaryRef.current = window.cloudinary;
@@ -77,10 +79,11 @@ const CreateBlog = () => {
         desc: mdesc,
         category: categories,
         banner: mImage,
-
-        context: [...pre.context, { title: title, desc: desc, image: image }],
+        email: user,
+        content: [...pre.content, { title: title, desc: desc, image: image }],
       };
     });
+
     setTitle("");
     setDesc("");
     setImage("");
@@ -89,13 +92,7 @@ const CreateBlog = () => {
   // Handle blog submission
   const handleSubmit = (e) => {
     e.preventDefault();
-    const token = Cookies.get("token");
-
-    if (!token) {
-      console.error("Token not found");
-      return;
-    }
-
+    let res;
     setBlog((pre) => {
       const blogdata = {
         ...pre,
@@ -103,22 +100,23 @@ const CreateBlog = () => {
         desc: mdesc,
         category: categories,
         banner: mImage,
-        context: [...pre.context, { title: title, desc: desc, image: image }],
+        email: user,
+        content: [...pre.content, { title: title, desc: desc, image: image }],
       };
 
-      console.log(token);
-      axios
-        .post("http://localhost:3000/api/blog/createblog", blogdata, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        })
+      res = axios
+        .post("http://localhost:3000/api/blog/createblog", blogdata)
         .then(() => console.log("blog saved"))
         .catch((err) => console.log(err));
 
       return blogdata;
     });
-
+    if (res) {
+      toast.success("Blog created successfully");
+      navigate("/");
+    } else {
+      toast.error("Error creating blog");
+    }
     setTitle("");
     setDesc("");
     setImage("");
@@ -126,6 +124,7 @@ const CreateBlog = () => {
     setmDesc("");
     setmImage("");
     setCategories("");
+    setBlog({ content: [] });
   };
 
   const handleCategory = (val) => {
@@ -206,7 +205,7 @@ const CreateBlog = () => {
         <div className="shadow p-4 mt-3 rounded">
           <h2>
             Content Area{" "}
-            {isNaN(blog?.context?.length) ? 1 : blog?.context?.length + 1}
+            {isNaN(blog?.content?.length) ? 1 : blog?.content?.length + 1}
           </h2>
 
           <div>

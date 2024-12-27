@@ -1,30 +1,47 @@
-import { useRef, useState } from "react";
-import { Modal, Form, Button } from "react-bootstrap";
-import { Link } from "react-router-dom";
-
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { useSelector } from "react-redux";
+import EditProfile from "./EditProfile";
 import fb_icon from "/social/facebook.png";
 import instagram_icon from "/social/instagram.png";
 import linkedin from "/social/linkedin.png";
 import twitter from "/social/twitter.png";
 
 const Profile = () => {
-  const inputRef = useRef(null);
-  const blogs = [1, 2, 3, 4, 5, 6];
+  const user = useSelector((state) => state.user.user);
+  const [blogs, setBlogs] = useState([]);
+  const [userData, setUserData] = useState({});
   const [show, setShow] = useState(false);
-  const handleEditImg = () => {
-    inputRef.current.click();
+
+  const getUserData = () => {
+    axios
+      .get(`/api/user/${user}`)
+      .then((res) => {
+        setUserData(res.data);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   };
 
-  const social = {
-    facebook: "https://www.facebook.com",
-    instagram: "https://www.instargram.com",
-    linkedin: "https://www.linkedin.com",
-    twitter: "https://www.x.com",
-  };
+  useEffect(() => {
+    getUserData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  useEffect(() => {
+    axios
+      .get(`/api/blog/user/${user}`)
+      .then((res) => {
+        console.log(res.data);
+        setBlogs(res.data.data);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }, []);
+
   return (
     <div className="container m-auto row gap-5 pt-5">
-      {/* Profile Section */}
-      <div className="mt-4"></div>
       <div className="col-md-3">
         <div
           style={{ backgroundColor: "#95d7e4", minWidth: "300px" }}
@@ -33,11 +50,11 @@ const Profile = () => {
           <img
             className="rounded-circle mt-5 shadow"
             width="150px"
-            src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"
+            src={userData.image || "/img/hero/hero4-image1.png"}
+            alt="Profile"
           />
-          <span className="font-weight-bold mt-3">Edogaru</span>
-          <span className="text-black-50 ">edogaru@mail.com.my</span>
-          <span> </span>
+          <span className="font-weight-bold mt-3">{userData.name}</span>
+          <span className="text-black-50 ">{userData.email}</span>
           <div className="pt-2">
             <button
               className="btn btn-info m-1 shadow"
@@ -45,88 +62,51 @@ const Profile = () => {
             >
               Edit Profile
             </button>
-            {/* Edit Profile modal */}
-            <Modal show={show} backdrop="static" onHide={() => setShow(false)}>
-              <Modal.Header closeButton>
-                <Modal.Title>Edit Profile</Modal.Title>
-              </Modal.Header>
-
-              <Modal.Body>
-                <Form.Group
-                  className="mb-3"
-                  controlId="exampleForm.ControlTextarea1"
-                >
-                  <div className="d-flex justify-content-center">
-                    <img
-                      className="rounded-circle shadow img-fluid"
-                      width={"150px"}
-                      src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"
-                    />
-                  </div>
-                  <div onClick={handleEditImg} className="position-relative">
-                    <i className="fa-regular fa-pen-to-square position-absolute ps-5 ms-3 pb-4 top-50 start-50 translate-middle fs-2"></i>
-                    <input
-                      type="file"
-                      ref={inputRef}
-                      style={{ display: "none" }}
-                    />
-                  </div>
-                </Form.Group>
-                <Form>
-                  <Form.Group
-                    className="mb-3"
-                    controlId="exampleForm.ControlInput1"
-                  >
-                    <Form.Label>Edit Username</Form.Label>
-                    <Form.Control type="text" autoFocus />
-                    {/* Facebook  */}
-                    <Form.Label className="mt-2">Facebook URL</Form.Label>
-                    <Form.Control type="text" placeholder="Paste here.." />
-                    {/* Instagram  */}
-                    <Form.Label className="mt-2">Instagram URL</Form.Label>
-                    <Form.Control type="text" placeholder="Paste here.." />
-                    {/* LinkedIn  */}
-                    <Form.Label className="mt-2">LinkedIn URL</Form.Label>
-                    <Form.Control type="text" placeholder="Paste here.." />
-                    {/* Twitter  */}
-                    <Form.Label className="mt-2">Twitter URL</Form.Label>
-                    <Form.Control type="text" placeholder="Paste here.." />
-                  </Form.Group>
-                </Form>
-              </Modal.Body>
-
-              <Modal.Footer>
-                <Button variant="secondary" onClick={() => setShow(false)}>
-                  Close
-                </Button>
-                <Button variant="primary" onClick={() => setShow(false)}>
-                  Save Changes
-                </Button>
-              </Modal.Footer>
-            </Modal>
-
+            <EditProfile
+              show={show}
+              setShow={setShow}
+              getUserData={getUserData}
+              userData={userData}
+            />
             <button className="btn btn-info m-1 shadow">Logout</button>
             <div className="col-md-12">
               <h4>Social Links</h4>
               <div className="w-100 social_links">
-                <Link to={social.facebook}>
-                  <img src={fb_icon} alt="" className="m-1" />
-                </Link>
-                <Link to={social.instagram}>
-                  <img src={instagram_icon} alt="" className="m-1" />
-                </Link>
-                <Link to={social.linkedin}>
-                  <img src={linkedin} alt="" className="m-1" />
-                </Link>
-                <Link to={social.twitter}>
-                  <img src={twitter} alt="" className="m-1" />
-                </Link>
+                <a
+                  href={userData.social_link?.fb || "https://www.facebook.com"}
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  <img src={fb_icon} alt="Facebook" className="m-1" />
+                </a>
+                <a
+                  href={
+                    userData.social_link?.insta || "https://www.instagram.com"
+                  }
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  <img src={instagram_icon} alt="Instagram" className="m-1" />
+                </a>
+                <a
+                  href={userData.social_link?.li || "https://www.linkedin.com"}
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  <img src={linkedin} alt="LinkedIn" className="m-1" />
+                </a>
+                <a
+                  href={userData.social_link?.tw || "https://www.twitter.com"}
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  <img src={twitter} alt="Twitter" className="m-1" />
+                </a>
               </div>
             </div>
           </div>
         </div>
       </div>
-
       <div className="container m-3 p-2 d-flex flex-column shadow col">
         <h2 className="m-2 p-2">Blogs</h2>
 

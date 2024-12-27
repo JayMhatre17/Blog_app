@@ -7,6 +7,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { removeUser } from "../../store/userSlice";
+import axios from "axios";
+import { toast } from "react-toastify";
 const MobileSidebar = () => {
   const [resBtn, setResbtn] = useState(false);
   const dispatch = useDispatch();
@@ -31,9 +33,17 @@ const MobileSidebar = () => {
 
   const handelLogout = async () => {
     try {
-      dispatch(removeUser());
+      const res = await axios.get("/api/logout", {
+        withCredentials: true,
+      });
+      if (res.data) {
+        dispatch(removeUser());
+        console.log(user);
+        toast.success("Logout Successfully");
+      }
     } catch (error) {
       console.log(error);
+      toast.error("Something Went Wrong");
     }
   };
   return (
@@ -56,7 +66,7 @@ const MobileSidebar = () => {
                 </div>
               </div>
               <div className="header1-buttons">
-                {user !== null ? (
+                {user === null ? (
                   <Link className="theme-btn7" to="/login">
                     Login
                   </Link>
@@ -67,7 +77,7 @@ const MobileSidebar = () => {
                       variant=""
                       title={
                         <img
-                          src={user.profile_picture}
+                          src="/img/hero/hero4-image1.png"
                           alt="Dropdown Icon"
                           style={{
                             borderRadius: "50%",
@@ -79,11 +89,18 @@ const MobileSidebar = () => {
                       className="mt-2"
                       data-bs-theme="dark"
                     >
-                      <Dropdown.Item>Profile</Dropdown.Item>
-                      <Dropdown.Item>Edit Profile</Dropdown.Item>
+                      <Dropdown.Item>
+                        <Link to={`/user/profile/${user}`}>Profile</Link>
+                      </Dropdown.Item>
+                      <Dropdown.Item>
+                        <Link to="/create/blog">Create Blog</Link>
+                      </Dropdown.Item>
+
                       <Dropdown.Divider />
                       <Dropdown.Item>
-                        <button onClick={handelLogout}> Log Out</button>
+                        <button className="theme-btn7" onClick={handelLogout}>
+                          Log Out
+                        </button>
                       </Dropdown.Item>
                     </DropdownButton>
                   </div>
